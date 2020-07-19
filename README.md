@@ -4,7 +4,7 @@ Dies ist die Softwareimplementierung der zweiten Phase für den Kurs 'Software E
 ## Installation
 Das Programm kann ausgeführt werden indem das git-repository gecloned wird und die Java Dateien lokal kompiliert und ausgeführt werden. Es gibt zurzeit keine executable oder sonstige vorkompilierte Dateien.
 
->**Achtung: Die  korrekte Ausführung wurde nur für Windows getestet. Auf Linux oder MacOS Sytemen kann es Probleme aufgrund anderer Konventionen für Pfadnamen beim Lesen von Dateien wie Bildern geben!**
+>**Achtung: Die  korrekte Ausführung wurde nur für Windows getestet. Auf Linux oder MacOS Sytemen kann es Probleme aufgrund anderer Konventionen für Pfadnamen beim Lesen von Dateien wie Bildern geben! Außerdem können Bildern und Karten auf der Konsole nicht korrekt ausgegeben werden, wenn diese kein unicode bzw. UTF-8 unterstützt!**
 
 ## Benutzung
 Nach dem Ausführen des Programms laufen einige Demo-Befehle ab, die die Grundfunktionen der Software zeigen. Danach hat man als Benutzer die Möglichkeit über die Konsole selbst mit der Software zu interagieren und zum Beispiel Suchanfragen und vieles mehr durchzuführen.
