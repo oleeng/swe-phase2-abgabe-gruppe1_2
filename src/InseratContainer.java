@@ -91,10 +91,10 @@ public class InseratContainer implements InseratComposite {
 
     private ArrayList<InseratComposite> sucheIntern(Filter... filter){
         ArrayList<InseratComposite> ergebnisse = new ArrayList<>();
-
+        // iteriere über alle InseratComposite des Containers
         for (InseratComposite inserat: inserateComposite){
             if(inserat instanceof InseratContainer){
-                // Inserat ist kein Inserat sondern ein Container
+                // Inserat ist kein Inserat sondern ein Container -> suche rekursiv weiter
                 ArrayList<InseratComposite> tmp = ((InseratContainer) inserat).sucheIntern(filter);
                 if(tmp == null){
                     return null;
@@ -105,10 +105,11 @@ public class InseratContainer implements InseratComposite {
                 Inserat i = (Inserat) inserat;
                 boolean erfuelltFilter = true;
                 int status;
-
+                // iteriere über alle Filter um zu testen ob alle zutreffen
                 for (Filter f: filter){
                     if(erlaubteFilter.get(f.getName()) != null){
                         if(erlaubteFilter.get(f.getName()).equals(f.getType())){
+                            // filter je nachdem ob es sich um einen Textfilter oder Zahlfilter handelt
                             if(f.getType().equals("String")){
                                 status = stringFilter(i.getEigenschaft(f.getName()), f);
                             }else{
@@ -129,7 +130,7 @@ public class InseratContainer implements InseratComposite {
                         return null;
                     }
                 }
-
+                // wenn das inserat alle Filter erfüllt hat so kann es der ergebnisliste hinzugefügt werden
                 if(erfuelltFilter){
                     ergebnisse.add(inserat);
                 }
