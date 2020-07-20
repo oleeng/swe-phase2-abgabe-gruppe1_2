@@ -4,13 +4,159 @@ Dies ist die Softwareimplementierung der zweiten Phase für den Kurs 'Software E
 ## Installation
 Das Programm kann ausgeführt werden indem das git-repository gecloned wird und die Java Dateien lokal kompiliert und ausgeführt werden. Es gibt zurzeit keine executable oder sonstige vorkompilierte Dateien.
 
->**Achtung: Die  korrekte Ausführung wurde nur für Windows getestet. Auf Linux oder MacOS Sytemen kann es Probleme aufgrund anderer Konventionen für Pfadnamen beim Lesen von Dateien wie Bildern geben! Außerdem können Bildern und Karten auf der Konsole nicht korrekt ausgegeben werden, wenn diese kein unicode bzw. UTF-8 unterstützt!**
+>**Achtung: Die korrekte Ausführung wurde nur für Windows getestet. Auf Linux oder MacOS Sytemen kann es Probleme aufgrund anderer Konventionen für Pfadnamen beim Lesen von Dateien wie Bildern geben! Außerdem können Bildern und Karten auf der Konsole nicht korrekt ausgegeben werden, wenn diese kein unicode bzw. UTF-8 unterstützt!**
 
 ## Benutzung
 Nach dem Ausführen des Programms laufen einige Demo-Befehle ab, die die Grundfunktionen der Software zeigen. Danach hat man als Benutzer die Möglichkeit über die Konsole selbst mit der Software zu interagieren und zum Beispiel Suchanfragen und vieles mehr durchzuführen.
 
-## Beispielausgaben
-Hier werden Schreenshots von Beispielkonsolenausgaben eingefügt.
+## Codebeispiele
+Ein neuer Inseratecontainer kann wie folgt erzeugt werden
+```java
+InseratContainer Container = new InseratContainer("Container");
+InseratContainer Container2 = new InseratContainer("Häuser");
+```
+Und ein Inserat kann so erstellt werden
+```java
+Inserat Inserat1 = new Inserat("Helle Wohnung in Berlin", new Standort("Deutschland", "Berlin", "Berlin", "10179", "Stallschreiberstraße 27"), 1799.0, "Wohnung", "mieten");
+wohnung1.add(
+	new Eigenschaft("Größe", 95.8),
+	new Eigenschaft("Zimmerzahl", 4.0),
+	new Eigenschaft("Baujahr", 1982.0),
+	new Eigenschaft("Einbauküche", "ja"),
+	new Eigenschaft("Haustiere", "nein"),
+	new Eigenschaft("Garten", "nein"),
+	new Eigenschaft("Etage", 3.0)
+);
+```
+Einem Inserat kann man auch noch Bilder und einen Rundgang hinzufügen
+```java
+try{
+	Inserat1.add(
+		new Bild("RUB Logo", "img\\rub.png"),
+		new Bild("GitHub Logo", "img\\git.jpg")
+	);
+}catch (FileNotFoundException e){
+	System.out.println("Mindestens eins der Bilder wurde nicht gefunden");
+}
+Rundgang rundgang1 = new Rundgang("Diese Wohnung ist sehr schön....");
+rundgang1.addMoebel(
+	new Modellmoebel("Ein Stuhl", "50cm x 50cm x 150cm"),
+	new Modellmoebel("Ein Tisch", "200cm x 100cm x 80cm")
+);
+Inserat1.add(rundgang1);
+```
+Einem Container kann man dann beliebig viele Container oder Inserate hinzufügen oder entfernen
+```java
+Container.add(Container2, Inserat1);
+Container.remove(Container2, Inserat1);
+```
+Man kann sich auch alle Elemente in einem Container ausgeben lassen, was rekursiv auch alle Elemente in internen Containern ausgibt. Auch den Gesamtpreis kann man sich ausgeben lassen.
+```java
+Container.print();
+System.out.println("Gesamtpreis: "+Container.getPreis()+"€");
+```
+Ausgabe:
+```
+Inseratcontainer: Container
+-Inseratcontainer: Häuser
+  +-----------------------------------------------
+  |Inserat (id: OggxVcLCy6h7wqLcCueoEm2umDha3nlzrBiJ3wwrpkEvX6by4JTWx0gqdRwSdzyk)
+  |Beschreibung: Doppelhaushälfte mit großem Garten in Altenbochum
+  +-----------------------------------------------
+  +-----------------------------------------------
+  |Inserat (id: 9EZstnXhsocRiWAADSlLQfEQJ2q46qgslgVCnVNQ8KUNZ2wV81OC3Zh0VOFg31Ph)
+  |Beschreibung: Das versteckte Paradies im Vrings-Veedl
+  +-----------------------------------------------
+-Inseratcontainer: Wohnungen
+  +-----------------------------------------------
+  |Inserat (id: JsxTQvnxcDMP3tFPZWHoM9gFrpaSj6XtUFwHleH01CiG8Auv7NGqdNsaToC9otsA)
+  |Beschreibung: Helle Wohnung in Berlin
+  +-----------------------------------------------
+  +-----------------------------------------------
+  |Inserat (id: UNsZbcoJOXnWlS0lLToUxnJX6eMXoquH7S27LjlOyaGfYx1fsGrJ9e27KRsvUhYr)
+  |Beschreibung: Große Wohnung in der  Bochumer Innenstadt
+  +-----------------------------------------------
+-Inseratcontainer: Bungalows
+  +-----------------------------------------------
+  |Inserat (id: 5gwUPdzkVDm71DK8P9Gnn3uTLt7e40oKggAUb8NyzvVDB8aTzY3mZKtAvSWBDw66)
+  |Beschreibung: Bungalow im Harz
+  +-----------------------------------------------
+  +-----------------------------------------------
+  |Inserat (id: rWHp0sTAR5lC0NIizsK3x9Rs0Tf9nvgFRyNKrRsIHbyaBKAcSDnM8bwM0uJIPJ5s)
+  |Beschreibung: Schöner Reihenhaus-Bungalow in Playa de Muro in Strandnähe!
+  +-----------------------------------------------
+Gesamtpreis: 2120900.0€
+```
+
+Es ist auch möglich alle Inserate eines Containers zu durchsuchen
+```java
+suchergebnisse = Container.suche(
+	new Filter("Stadt", "Alcudia"),
+	new Filter("Größe", 80.0, "min"),
+	new Filter("Größe", 500.0, "max"),
+	new Filter("Zimmerzahl", 2.0, "min"),
+	new Filter("Preis", 1000000.0, "max"),
+	new Filter("Haustiere", "ja"),
+	new Filter("Baujahr", 2000.0, "min"),
+	new Filter("Typ", "Bungalow"),
+	new Filter("Garten", "ja")
+);
+suchergebnisse.print();
+```
+Ausgabe:
+```
+Inseratcontainer: Suchergebnisse
+ Suchergebnis #1
+ +-----------------------------------------------
+ |Inserat (id: rWHp0sTAR5lC0NIizsK3x9Rs0Tf9nvgFRyNKrRsIHbyaBKAcSDnM8bwM0uJIPJ5s)
+ |Beschreibung: Schöner Reihenhaus-Bungalow in Playa de Muro in Strandnähe!
+ +-----------------------------------------------
+```
+Man kann sich auch für ein einzelnes Inserat viele Informationen ausgeben lassen
+```java
+Inserat1.printEigenschaften();
+Inserat1.getStandort().printKarte(14);
+Inserat1.zeigeBilder();
+Inserat1.starteRundgang();
+Inserat1.getRundgang().playAudiokommentar();
+Inserat1.getRundgang().printAllMoebel();
+```
+Ausgabe:
+```
+Das Inserat hat folgende Eigenschaften:
+Name: Bundesland, Wert: Mallorca
+Name: Zimmerzahl, Wert: 4.0
+Name: Typ, Wert: Bungalow
+Name: Straße, Wert: Carrer de Minerva 11
+Name: Land, Wert: Spanien
+Name: Wohnart, Wert: kaufen
+Name: Preis, Wert: 515000.0
+Name: Größe, Wert: 325.0
+Name: Garten, Wert: ja
+Name: Baujahr, Wert: 2010.0
+Name: Stadt, Wert: Alcudia
+Name: Haustiere, Wert: ja
+Name: Einbauküche, Wert: ja
+Name: PLZ, Wert: 07400
+```
+![alt text](https://raw.githubusercontent.com/oleeng/swe-phase2-abgabe-gruppe1_2/master/karte.png "Ausgabe des Standorts")
+![alt text](https://raw.githubusercontent.com/oleeng/swe-phase2-abgabe-gruppe1_2/master/rub.png "Ausgabe des Standorts")
+```
+Starte Rundgang (id: BMgVlRStfLckchTS7IcQMKl6exkqDRIkMhptEbvZmpSyiaqLFHMXTNDHozphxhpv)...
+Gebe den Audiokommentar wieder...
+Diese Wohnung ist sehr schön....
+In der Immobile befinden sich aktuell folgende Möbel.....
++-----------------------------------------------
+|Möbel-ID: TNuCy0WcBqnvKQ3ZHBhfj7Zlt2ic5Ej17JvGR4T30iYFZbWE21tZ46Td5qJ4EVwM
+|Beschreibung: Ein Stuhl
+|Größe: 50cm x 50cm x 150cm
++-----------------------------------------------
++-----------------------------------------------
+|Möbel-ID: Tig8w538O2wCkGN3p5aDep1cwBSM4eTRGZzZTyJaInjgEaD6SU5KmcVJK2IqNoIv
+|Beschreibung: Ein Tisch
+|Größe: 200cm x 100cm x 80cm
++-----------------------------------------------
+```
 
 ## Dokumentation
 
